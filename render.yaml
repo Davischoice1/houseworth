@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: house-price-predictor
+    name: house-price-estimator
     runtime: python
     buildCommand: ""
     startCommand: gunicorn app:app
