@@ -56,8 +56,8 @@ A Flask web interface allows users to:
 
 ### Screenshots
 
-![Prediction Form](screenshots/form.png)
-![Prediction Output](screenshots/output.png)
+![Prediction Form](screenshots/form.PNG)
+![Prediction Output](screenshots/ui.png)
 
 ## 🚀 How to Run Locally
 
