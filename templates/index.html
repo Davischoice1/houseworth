@@ -1,61 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House Price Prediction</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+
+        .left-panel {
+            background-color: #2c3e50;
+            color: white;
+            padding: 60px 40px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .left-panel h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .left-panel p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .right-panel {
+            flex: 1;
             background-image: url("{{ url_for('static', filename='houses.jpg') }}");
             background-size: cover;
-            font-family: Arial, sans-serif;
-            color: white;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-container {
+            background-color: #2c3e50;
+            padding: 40px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container h2 {
+            margin-bottom: 25px;
+            color: #ffffff;
             text-align: center;
         }
-        .container {
-            background: rgba(0, 0, 0, 0.6);
-            margin: 10% auto;
-            padding: 30px;
-            border-radius: 10px;
-            width: 40%;
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #ffffff;
+            font-weight: 500;
         }
+
         input, select {
-            padding: 10px;
-            margin: 10px;
-            width: 80%;
-            border-radius: 5px;
-            border: none;
-        }
-        button {
-            padding: 10px 30px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        h1 {
+            width: 100%;
+            padding: 12px;
             margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .button-group button {
+            flex: 1;
+            padding: 12px;
+            background-color: #ffffff;
+            color: #2c3e50;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .button-group button:hover {
+            background-color: #dcdcdc;
+        }
+
+        .prediction {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                flex: none;
+                height: auto;
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1> House Price Prediction</h1>
-        <form method="POST" action="/predict">
-            <input type="text" name="sqft" placeholder="Total Square Feet" required><br>
-            <input type="text" name="bath" placeholder="Number of Bathrooms" required><br>
-            <input type="text" name="bhk" placeholder="Number of Bedrooms (BHK)" required><br>
-            <select name="location" required>
-                <option value="" disabled selected>Select Location</option>
-                {% for loc in locations %}
-                    <option value="{{ loc }}">{{ loc }}</option>
-                {% endfor %}
-            </select><br>
-            <button type="submit">Predict</button>
-        </form>
-        {% if prediction_text %}
-            <h2 style="margin-top: 20px;">{{ prediction_text }}</h2>
-        {% endif %}
+    <div class="main-container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <h1>Banglore House Price Estimator</h1>
+            <p>
+                Make smarter real estate decisions with our <strong>AI-powered price prediction</strong> tool.
+                Whether you're a <strong>buyer</strong>, <strong>seller</strong>, or <strong>agent</strong>, this platform delivers 
+                real-time, data-driven estimates based on key features like 
+                <em>location</em>, <em>square footage</em>, <em>bedrooms</em>, and <em>bathrooms</em>.
+            </p>
+            <p>
+                <strong>🔍 How it works:</strong><br>
+                Enter your property details and get an instant, accurate valuation powered by 
+                <strong>machine learning</strong> and Bengaluru's historical market trends.
+            </p>
+            <p>
+                <strong>💡 Why use this tool?</strong><br>
+                ✔️ Instant, reliable price estimates<br>
+                ✔️ User-friendly, no guesswork<br>
+                ✔️ Tailored for Bengaluru’s housing market
+            </p>
+            <p class="closing-message">
+                <strong>Smart. Simple. Accurate.</strong><br>
+                Your next move starts here.
+            </p>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="form-container">
+                <h2>Enter Property Details</h2>
+                <form id="priceForm" method="POST" action="/predict">
+                    <label for="sqft">Total Square Feet</label>
+                    <input type="text" id="sqft" name="sqft" placeholder="e.g., 1200" required>
+
+                    <label for="bath">Number of Bathrooms</label>
+                    <input type="text" id="bath" name="bath" placeholder="e.g., 2" required>
+
+                    <label for="bhk">Number of Bedrooms (BHK)</label>
+                    <input type="text" id="bhk" name="bhk" placeholder="e.g., 3" required>
+
+                    <label for="location">Select Location</label>
+                    <select name="location" id="location" required>
+                        <option value="" disabled selected>Select Location</option>
+                        {% for loc in locations %}
+                            <option value="{{ loc }}">{{ loc }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <div class="button-group">
+                        <button type="submit">Predict</button>
+                        <button type="button" onclick="resetForm()">Clear</button>
+                    </div>
+                </form>
+
+                {% if prediction_text %}
+                    <div id="prediction" class="prediction">{{ prediction_text }}</div>
+                {% endif %}
+            </div>
+        </div>
     </div>
+
+    <script>
+        function resetForm() {
+            document.getElementById("priceForm").reset();
+            const prediction = document.getElementById("prediction");
+            if (prediction) {
+                prediction.innerText = '';
+            }
+        }
+    </script>
 </body>
 </html>
