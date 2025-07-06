@@ -2,6 +2,8 @@ from flask import Flask, request, render_template
 import pickle
 import json
 import numpy as np
+import os
+
 
 app = Flask(__name__)
 
@@ -47,4 +49,5 @@ def predict():
         return render_template('index.html', prediction_text=f"Error: {str(e)}", locations=sorted([col.title() for col in X_columns[3:]]))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+
