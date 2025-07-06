@@ -39,11 +39,81 @@ Three regression models were trained and evaluated:
 
 ## 🧪 Model Evaluation
 
-| Model                    | R² Score |
-|--------------------------|----------|
-| Linear Regression        | 0.84     |
-| Random Forest Regressor | 0.91     |
-| Gradient Boosting       | 0.93     |
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>best_score</th>
+      <th>best_params</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>linear_regression</td>
+      <td>0.847796</td>
+      <td>{'positive': False}</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>lasso</td>
+      <td>0.726738</td>
+      <td>{'alpha': 2}</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ridge</td>
+      <td>0.846798</td>
+      <td>{'alpha': 1}</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>elasticnet</td>
+      <td>0.744950</td>
+      <td>{'alpha': 0.1, 'l1_ratio': 0.8}</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>decision_tree</td>
+      <td>0.743388</td>
+      <td>{'criterion': 'squared_error', 'max_depth': 20}</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>random_forest</td>
+      <td>0.795851</td>
+      <td>{'max_depth': 20, 'n_estimators': 50}</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>gradient_boosting</td>
+      <td>0.777778</td>
+      <td>{'learning_rate': 0.1, 'max_depth': 5, 'n_esti...</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>knn</td>
+      <td>0.683079</td>
+      <td>{'n_neighbors': 5}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 > Best performance: ✅ **Gradient Boosting Regressor**
 
