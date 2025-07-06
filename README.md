@@ -115,7 +115,7 @@ Three regression models were trained and evaluated:
 </table>
 </div>
 
-> Best performance: ✅ **Gradient Boosting Regressor**
+> Best performance: ✅ **Linear Regression**
 
 ## 🌐 Web App (Flask)
 
